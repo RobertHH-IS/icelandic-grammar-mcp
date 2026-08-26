@@ -33,9 +33,9 @@ This is the easiest option. It works only with **Claude Desktop**.
 That is all. Claude runs the MCP server locally and handles the API-key setting
 for you. You do not need to use Terminal or install any programming tools.
 
-### 2. Ask Claude, Codex, or ChatGPT Desktop to bring over the skill
+### 2. Ask Claude or Codex to bring over the skill
 
-Copy the message below into Claude, Codex, or ChatGPT Desktop:
+Copy the message below into Claude or Codex:
 
 > Install the Málfríður skill from this repository for me:
 > https://github.com/RobertHH-IS/icelandic-grammar-mcp
@@ -43,9 +43,15 @@ Copy the message below into Claude, Codex, or ChatGPT Desktop:
 > Keep my API key private. Do not ask me to paste it into this chat. Show me the
 > safest way to set `MALSTADUR_API_KEY` when it is needed.
 
-These assistants can examine the repository, copy the small
+Claude or Codex can examine the repository, copy the small
 [skill file](.codex/skills/malfridur-api/SKILL.md), or use it as a guide when
-creating their own version. They can also guide you through the API-key step.
+creating a compatible version.
+
+With this option, Codex, ChatGPT Desktop, Claude Cowork, or another compatible
+assistant follows the skill instructions and calls Miðeind's API directly. The
+only setup is adding `MALSTADUR_API_KEY` to the app's environment. That is a
+quick, one-time step, and the assistant can guide you through it without seeing
+your key.
 
 ### 3. Ask Claude, Codex, or ChatGPT Desktop to make its own version
 
@@ -66,8 +72,9 @@ Miðeind also provides a
 
 ## What the connection does
 
-The MCP server runs locally on your computer. It sends Icelandic text directly
-to the official Málstaður grammar endpoint and returns Málfríður's corrected
+With the Claude Desktop extension, the MCP server runs locally on your computer.
+With the skill, your assistant can call the same endpoint directly. In both
+cases, the text goes straight to Miðeind and Málfríður returns its corrected
 text and suggested changes. API usage may be metered by Málstaður.
 
 The Claude Desktop extension contains one tool:
