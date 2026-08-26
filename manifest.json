@@ -1,0 +1,68 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/mcpb/main/dist/mcpb-manifest.schema.json",
+  "manifest_version": "0.2",
+  "name": "icelandic-grammar-mcp",
+  "display_name": "Icelandic Grammar (Málfríður)",
+  "version": "1.0.0",
+  "description": "Unofficial MCP server for Miðeind's Málfríður Icelandic grammar and spelling API.",
+  "long_description": "An unofficial MCP server that gives Claude a check_icelandic_grammar tool, powered by Miðeind's Málfríður proofreading API. Claude can check Icelandic text and apply the returned corrections and suggestions. Requires an API key from a Frjáls áskrift subscription at api.greynir.is. Not affiliated with or endorsed by Miðeind ehf.",
+  "author": {
+    "name": "Fordæmi ehf.",
+    "url": "https://fordaemi.is"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/server/index.js"
+      ],
+      "env": {
+        "GREYNIR_API_KEY": "${user_config.api_key}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "check_icelandic_grammar",
+      "description": "Check Icelandic text for spelling and grammar errors; returns corrections and annotated suggestions."
+    }
+  ],
+  "user_config": {
+    "api_key": {
+      "type": "string",
+      "title": "Málfríður API Key",
+      "description": "API key from your Frjáls áskrift subscription at api.greynir.is.",
+      "sensitive": true,
+      "required": true
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  },
+  "keywords": [
+    "icelandic",
+    "grammar",
+    "spelling",
+    "proofreading",
+    "malfridur",
+    "islenska",
+    "mcp"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RobertHH-IS/icelandic-grammar-mcp"
+  },
+  "homepage": "https://github.com/RobertHH-IS/icelandic-grammar-mcp",
+  "documentation": "https://github.com/RobertHH-IS/icelandic-grammar-mcp#readme"
+}

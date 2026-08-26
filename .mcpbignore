@@ -1,0 +1,6 @@
+/.git/
+/.github/
+/.codex/
+/test/
+/dist/
+/package-lock.json
