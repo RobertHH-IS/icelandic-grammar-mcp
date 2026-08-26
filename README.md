@@ -90,6 +90,10 @@ With the skill, your assistant can call the same endpoint directly. In both
 cases, the text goes straight to Miðeind and Málfríður returns its corrected
 text and suggested changes. API usage may be metered by Málstaður.
 
+The assistant should return Málfríður's corrected text as normal text without
+adding its own corrections, rewriting, link repairs, formatting changes, or
+commentary.
+
 The Claude Desktop extension contains one tool:
 `check_icelandic_grammar`.
 

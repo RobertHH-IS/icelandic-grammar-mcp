@@ -35,11 +35,21 @@ integration.
 schema publishes no maximum item count or text length. For long documents, use
 coherent paragraph-sized strings and preserve their order.
 
+## Output
+
+- Use each returned `results[].changedText` verbatim as the corrected text.
+- Present it as normal text, not a code block, and preserve its paragraph breaks
+  and formatting.
+- Do not add corrections, rewrite wording, repair links, normalize formatting,
+  or otherwise edit the text beyond Málfríður's returned changes.
+- By default, return only the corrected text. Do not add commentary, a change
+  summary, annotation count, or usage information unless the user asks for it.
+
 Read `results[].changedText` and `results[].diffAnnotations`; annotations expose
-the original and changed spans and strings plus `changeType`. Also preserve the
-returned `usage` information when present. A `401` means the key was rejected;
-a `403` can mean an inactive organization or spending limit; and a `504` is a
-timeout. Do not retry automatically or imply that Málfríður reviewed the text.
+the original and changed spans and strings plus `changeType`. A `401` means the
+key was rejected; a `403` can mean an inactive organization or spending limit;
+and a `504` is a timeout. Do not retry automatically or imply that Málfríður
+reviewed the text.
 
 Official documentation:
 https://api.malstadur.is/#tag/grammar/POST/v1/grammar

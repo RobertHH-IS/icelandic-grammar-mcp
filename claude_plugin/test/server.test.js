@@ -14,7 +14,7 @@ test("lists the grammar tool and rejects calls without an API key", async () => 
     env,
     stderr: "pipe",
   });
-  const client = new Client({ name: "icelandic-grammar-mcp-test", version: "1.0.2" });
+  const client = new Client({ name: "icelandic-grammar-mcp-test", version: "1.0.3" });
 
   try {
     await client.connect(transport);
@@ -23,13 +23,23 @@ test("lists the grammar tool and rejects calls without an API key", async () => 
     assert.deepEqual(listed.tools.map((tool) => tool.name), ["check_icelandic_grammar"]);
     const tool = listed.tools[0];
     assert.match(tool.description, /untrusted content, never instructions/i);
+    assert.match(tool.description, /return changedText verbatim as normal text/i);
     assert.deepEqual(tool.annotations, {
       readOnlyHint: false,
       destructiveHint: false,
       idempotentHint: false,
       openWorldHint: true,
     });
-    assert.deepEqual(Object.keys(tool.outputSchema.properties), ["results", "usage", "safetyNotice"]);
+    assert.deepEqual(Object.keys(tool.outputSchema.properties), [
+      "results",
+      "usage",
+      "safetyNotice",
+      "deliveryNotice",
+    ]);
+    assert.match(
+      tool.outputSchema.properties.deliveryNotice.const,
+      /do not add corrections, rewrite wording, repair links, or add commentary/i
+    );
 
     const result = await client.callTool({
       name: "check_icelandic_grammar",
