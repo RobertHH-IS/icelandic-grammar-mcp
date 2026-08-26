@@ -43,9 +43,9 @@ Copy the message below into Claude, Codex, or ChatGPT Desktop:
 > Keep my API key private. Do not ask me to paste it into this chat. Show me the
 > safest way to set `MALSTADUR_API_KEY` when it is needed.
 
-These assistants can examine the repository, help you bring over the small
-[skill file](.codex/skills/malfridur-api/SKILL.md), and guide you through the
-API-key step.
+These assistants can examine the repository, copy the small
+[skill file](.codex/skills/malfridur-api/SKILL.md), or use it as a guide when
+creating their own version. They can also guide you through the API-key step.
 
 ### 3. Ask Claude, Codex, or ChatGPT Desktop to make its own version
 
