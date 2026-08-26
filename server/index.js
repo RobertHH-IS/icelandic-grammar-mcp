@@ -3,20 +3,14 @@
  * Málfríður MCP — Claude Desktop extension server.
  * Wraps Miðeind's Málstaður grammar correction endpoint.
  *
- * Config arrives via env vars set by the manifest from user_config:
- *   MALSTADUR_API_KEY       required (user enters it in the extension settings UI)
- *   MALSTADUR_API_URL       default https://api.malstadur.is
- *   MALSTADUR_GRAMMAR_PATH  default /v1/grammar
- *   MALSTADUR_TIMEOUT_MS    default 60000
+ * MALSTADUR_API_KEY is supplied by the extension's sensitive user setting.
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-const API_URL = (process.env.MALSTADUR_API_URL || "https://api.malstadur.is").replace(/\/+$/, "");
-const GRAMMAR_PATH = process.env.MALSTADUR_GRAMMAR_PATH || "/v1/grammar";
-const TIMEOUT_MS = Number(process.env.MALSTADUR_TIMEOUT_MS || 60000);
+const GRAMMAR_URL = "https://api.malstadur.is/v1/grammar";
 
 const server = new McpServer({
   name: "icelandic-grammar-mcp",
@@ -46,7 +40,7 @@ server.registerTool(
 
     let resp;
     try {
-      resp = await fetch(`${API_URL}${GRAMMAR_PATH}`, {
+      resp = await fetch(GRAMMAR_URL, {
         method: "POST",
         headers: {
           "X-API-KEY": apiKey,
@@ -54,7 +48,7 @@ server.registerTool(
           Accept: "application/json",
         },
         body: JSON.stringify({ texts: [text] }),
-        signal: AbortSignal.timeout(TIMEOUT_MS),
+        signal: AbortSignal.timeout(60000),
       });
     } catch (e) {
       return fail(`Request to Málstaður failed: ${e.message || e}`);

@@ -23,38 +23,8 @@ See Miðeind's [API documentation](https://api.malstadur.is/#tag/grammar/POST/v1
 3. Paste your Málfríður API key when prompted.
 
 No Node.js or Python installation needed — Claude Desktop runs the extension in
-its own bundled runtime. The key is stored by Claude Desktop in your OS
-keychain, not in a config file.
-
-## Install (Claude Code / other MCP clients)
-
-Requires Node.js 18+.
-
-```bash
-git clone https://github.com/RobertHH-IS/icelandic-grammar-mcp.git
-cd icelandic-grammar-mcp
-npm install --omit=dev
-
-claude mcp add icelandic-grammar \
-  -e MALSTADUR_API_KEY=your-key-here \
-  -- node "$PWD/server/index.js"
-```
-
-Do not commit the key or paste it into an issue. Configure it in the MCP client
-or in the environment of the process that runs the server.
-
-## Install the Claude Code skill
-
-The release also contains `malfridur-api-claude-skill.zip`. Extract its
-`malfridur-api` folder into `~/.claude/skills/`, or install it from the checkout:
-
-```bash
-mkdir -p ~/.claude/skills
-cp -R .claude/skills/malfridur-api ~/.claude/skills/
-```
-
-The skill uses the MCP tool supplied by the extension. Start a new Claude
-session after installing or enabling the extension and skill.
+its own bundled runtime. The extension marks the key as a sensitive setting and
+passes it to the server as `MALSTADUR_API_KEY`.
 
 ## Install the Codex skill
 
@@ -81,15 +51,9 @@ grammar endpoint and returns its JSON. Each item in `results` contains
 
 ## Configuration
 
-The endpoint settings are overridable for local testing. Production should use
-the defaults:
-
-| Variable                  | Default                       | Purpose                |
-|---------------------------|-------------------------------|------------------------|
-| `MALSTADUR_API_KEY`       | *(required)*                  | Your Málstaður API key |
-| `MALSTADUR_API_URL`       | `https://api.malstadur.is`    | API base URL           |
-| `MALSTADUR_GRAMMAR_PATH`  | `/v1/grammar`                 | Grammar endpoint path  |
-| `MALSTADUR_TIMEOUT_MS`    | `60000`                       | Request timeout        |
+The only configuration value is `MALSTADUR_API_KEY`. Claude Desktop asks for
+it during installation and passes it to the MCP server as a sensitive
+environment variable.
 
 ## Building the extension yourself
 
@@ -98,11 +62,10 @@ npm install --omit=dev
 npm test
 npm run validate
 npm run pack        # -> dist/icelandic-grammar-mcp.mcpb
-npm run pack:claude-skill
 ```
 
-Tagging a release builds and attaches both the `.mcpb` extension and Claude
-Code skill archive through GitHub Actions.
+Tagging a release builds and attaches the `.mcpb` extension through GitHub
+Actions.
 
 ## License
 

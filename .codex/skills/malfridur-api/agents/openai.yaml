@@ -1,4 +1,0 @@
-interface:
-  display_name: "Málfríður API"
-  short_description: "Proofread Icelandic through the Málfríður API"
-  default_prompt: "Use $malfridur-api to proofread this Icelandic text with the Málfríður API."

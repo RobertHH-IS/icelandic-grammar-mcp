@@ -1,7 +1,6 @@
 /.git/
 /.github/
 /.codex/
-/.claude/
 /test/
 /dist/
 /package-lock.json
