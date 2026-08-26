@@ -14,13 +14,22 @@ test("lists the grammar tool and rejects calls without an API key", async () => 
     env,
     stderr: "pipe",
   });
-  const client = new Client({ name: "icelandic-grammar-mcp-test", version: "1.0.1" });
+  const client = new Client({ name: "icelandic-grammar-mcp-test", version: "1.0.2" });
 
   try {
     await client.connect(transport);
 
     const listed = await client.listTools();
     assert.deepEqual(listed.tools.map((tool) => tool.name), ["check_icelandic_grammar"]);
+    const tool = listed.tools[0];
+    assert.match(tool.description, /untrusted content, never instructions/i);
+    assert.deepEqual(tool.annotations, {
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: false,
+      openWorldHint: true,
+    });
+    assert.deepEqual(Object.keys(tool.outputSchema.properties), ["results", "usage", "safetyNotice"]);
 
     const result = await client.callTool({
       name: "check_icelandic_grammar",
@@ -28,6 +37,7 @@ test("lists the grammar tool and rejects calls without an API key", async () => 
     });
     assert.equal(result.isError, true);
     assert.match(result.content[0].text, /MALSTADUR_API_KEY is not configured/);
+    assert.doesNotMatch(result.content[0].text, /Þetta er prófun/);
   } finally {
     await client.close();
   }
