@@ -1,17 +1,19 @@
 # icelandic-grammar-mcp
 
-An **unofficial** MCP server for Miðeind's **Málfríður** Icelandic grammar and
-spelling API. It gives Claude a single tool — `check_icelandic_grammar` — so
-Claude can proofread Icelandic text and work with the corrections it gets back.
+An **unofficial** MCP server for Miðeind's **Málfríður** Icelandic proofreading
+service through the [Málstaður API](https://api.malstadur.is/). It gives Claude
+a single tool — `check_icelandic_grammar` — for API-backed Icelandic review.
 
 > Not affiliated with, endorsed by, or supported by Miðeind ehf.
 > Málfríður is Miðeind's product; this project just talks to its public API.
 
 ## Requirements
 
-An API key from a **Frjáls áskrift** subscription at
-[api.greynir.is](https://api.greynir.is). The key is yours — this server sends
-it directly to Miðeind and nowhere else.
+Create a **Frjáls áskrift** in
+[Málstaður](https://malstadur.mideind.is/askrift), then create an API key on the
+[Forritaskil page](https://malstadur.mideind.is/hopar/forritaskil). The key is
+sent only to `https://api.malstadur.is/v1/grammar` in the `X-API-KEY` header.
+See Miðeind's [API documentation](https://api.malstadur.is/#tag/grammar/POST/v1/grammar).
 
 ## Install (Claude Desktop)
 
@@ -34,12 +36,25 @@ cd icelandic-grammar-mcp
 npm install --omit=dev
 
 claude mcp add icelandic-grammar \
-  -e GREYNIR_API_KEY=your-key-here \
+  -e MALSTADUR_API_KEY=your-key-here \
   -- node "$PWD/server/index.js"
 ```
 
 Do not commit the key or paste it into an issue. Configure it in the MCP client
 or in the environment of the process that runs the server.
+
+## Install the Claude Code skill
+
+The release also contains `malfridur-api-claude-skill.zip`. Extract its
+`malfridur-api` folder into `~/.claude/skills/`, or install it from the checkout:
+
+```bash
+mkdir -p ~/.claude/skills
+cp -R .claude/skills/malfridur-api ~/.claude/skills/
+```
+
+The skill uses the MCP tool supplied by the extension. Start a new Claude
+session after installing or enabling the extension and skill.
 
 ## Install the Codex skill
 
@@ -47,7 +62,7 @@ The repository includes a small Codex skill for calling the same API directly:
 
 ```bash
 cp -R .codex/skills/malfridur-api ~/.codex/skills/
-export GREYNIR_API_KEY='your-key-here'
+export MALSTADUR_API_KEY='your-key-here'
 ```
 
 Start a new Codex task after installing the skill. The skill reads the key from
@@ -56,9 +71,9 @@ arguments.
 
 ## The tool
 
-**`check_icelandic_grammar(text)`** — returns the API's JSON: corrected text
-plus annotations. Each annotation carries a token span, an error code, a
-description in Icelandic, and a suggested replacement where one exists.
+**`check_icelandic_grammar(text)`** sends `{"texts":[text]}` to the official
+grammar endpoint and returns its JSON. Each item in `results` contains
+`originalText`, `changedText`, and `diffAnnotations` describing the changes.
 
 ```
 > Lestu yfir þennan texta: "Mér langar að fara í bíó."
@@ -66,16 +81,15 @@ description in Icelandic, and a suggested replacement where one exists.
 
 ## Configuration
 
-Everything is overridable by environment variable. Defaults:
+The endpoint settings are overridable for local testing. Production should use
+the defaults:
 
-| Variable               | Default                    | Purpose                     |
-|------------------------|----------------------------|-----------------------------|
-| `GREYNIR_API_KEY`      | *(required)*               | Your Málfríður API key      |
-| `GREYNIR_API_URL`      | `https://api.greynir.is`   | API base URL                |
-| `GREYNIR_CORRECT_PATH` | `/correct`                 | Correction endpoint path    |
-| `GREYNIR_TEXT_FIELD`   | `text`                     | Request body field name     |
-| `GREYNIR_KEY_HEADER`   | `X-API-Key`                | Header carrying the API key |
-| `GREYNIR_TIMEOUT_MS`   | `60000`                    | Request timeout             |
+| Variable                  | Default                       | Purpose                |
+|---------------------------|-------------------------------|------------------------|
+| `MALSTADUR_API_KEY`       | *(required)*                  | Your Málstaður API key |
+| `MALSTADUR_API_URL`       | `https://api.malstadur.is`    | API base URL           |
+| `MALSTADUR_GRAMMAR_PATH`  | `/v1/grammar`                 | Grammar endpoint path  |
+| `MALSTADUR_TIMEOUT_MS`    | `60000`                       | Request timeout        |
 
 ## Building the extension yourself
 
@@ -84,12 +98,13 @@ npm install --omit=dev
 npm test
 npm run validate
 npm run pack        # -> dist/icelandic-grammar-mcp.mcpb
+npm run pack:claude-skill
 ```
 
-Tagging a release (`git tag v1.0.0 && git push --tags`) builds and attaches the
-`.mcpb` automatically via GitHub Actions.
+Tagging a release builds and attaches both the `.mcpb` extension and Claude
+Code skill archive through GitHub Actions.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Málfríður and Greynir are products of
+MIT — see [LICENSE](LICENSE). Málfríður and Málstaður are products of
 [Miðeind ehf.](https://mideind.is) and subject to their own terms.

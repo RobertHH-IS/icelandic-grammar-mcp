@@ -9,12 +9,12 @@ test("the skill helper sends text and the API key without exposing the key", asy
 
   const server = http.createServer(async (request, response) => {
     assert.equal(request.method, "POST");
-    assert.equal(request.url, "/correct");
+    assert.equal(request.url, "/v1/grammar");
     assert.equal(request.headers["x-api-key"], apiKey);
 
     const chunks = [];
     for await (const chunk of request) chunks.push(chunk);
-    assert.deepEqual(JSON.parse(Buffer.concat(chunks).toString("utf8")), { text: input });
+    assert.deepEqual(JSON.parse(Buffer.concat(chunks).toString("utf8")), { texts: [input] });
 
     response.writeHead(200, { "Content-Type": "application/json" });
     response.end(JSON.stringify({ corrected: input, annotations: [] }));
@@ -26,8 +26,8 @@ test("the skill helper sends text and the API key without exposing the key", asy
     cwd: process.cwd(),
     env: {
       ...process.env,
-      GREYNIR_API_KEY: apiKey,
-      GREYNIR_API_URL: `http://127.0.0.1:${address.port}`,
+      MALSTADUR_API_KEY: apiKey,
+      MALSTADUR_API_URL: `http://127.0.0.1:${address.port}`,
     },
     stdio: ["pipe", "pipe", "pipe"],
   });

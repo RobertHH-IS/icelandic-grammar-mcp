@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-const apiKey = process.env.GREYNIR_API_KEY;
+const apiKey = process.env.MALSTADUR_API_KEY;
 
 if (!apiKey) {
   console.error(JSON.stringify({
-    error: "GREYNIR_API_KEY is not configured in this process environment.",
+    error: "MALSTADUR_API_KEY is not configured in this process environment.",
   }));
   process.exit(2);
 }
@@ -18,27 +18,25 @@ if (!text.trim()) {
   process.exit(2);
 }
 
-const apiUrl = (process.env.GREYNIR_API_URL || "https://api.greynir.is").replace(/\/+$/, "");
-const correctPath = process.env.GREYNIR_CORRECT_PATH || "/correct";
-const keyHeader = process.env.GREYNIR_KEY_HEADER || "X-API-Key";
-const textField = process.env.GREYNIR_TEXT_FIELD || "text";
-const timeoutMs = Number(process.env.GREYNIR_TIMEOUT_MS || 60000);
+const apiUrl = (process.env.MALSTADUR_API_URL || "https://api.malstadur.is").replace(/\/+$/, "");
+const grammarPath = process.env.MALSTADUR_GRAMMAR_PATH || "/v1/grammar";
+const timeoutMs = Number(process.env.MALSTADUR_TIMEOUT_MS || 60000);
 
 if (!Number.isFinite(timeoutMs) || timeoutMs <= 0) {
-  console.error(JSON.stringify({ error: "GREYNIR_TIMEOUT_MS must be a positive number." }));
+  console.error(JSON.stringify({ error: "MALSTADUR_TIMEOUT_MS must be a positive number." }));
   process.exit(2);
 }
 
 let response;
 try {
-  response = await fetch(`${apiUrl}${correctPath}`, {
+  response = await fetch(`${apiUrl}${grammarPath}`, {
     method: "POST",
     headers: {
-      [keyHeader]: apiKey,
+      "X-API-KEY": apiKey,
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify({ [textField]: text }),
+    body: JSON.stringify({ texts: [text] }),
     signal: AbortSignal.timeout(timeoutMs),
   });
 } catch (error) {

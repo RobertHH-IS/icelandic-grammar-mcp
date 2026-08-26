@@ -3,9 +3,9 @@
   "manifest_version": "0.2",
   "name": "icelandic-grammar-mcp",
   "display_name": "Icelandic Grammar (Málfríður)",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Unofficial MCP server for Miðeind's Málfríður Icelandic grammar and spelling API.",
-  "long_description": "An unofficial MCP server that gives Claude a check_icelandic_grammar tool, powered by Miðeind's Málfríður proofreading API. Claude can check Icelandic text and apply the returned corrections and suggestions. Requires an API key from a Frjáls áskrift subscription at api.greynir.is. Not affiliated with or endorsed by Miðeind ehf.",
+  "long_description": "An unofficial MCP server that gives Claude a check_icelandic_grammar tool, powered by Miðeind's Málfríður proofreading service through the Málstaður API. Requires an API key created under a Frjáls áskrift at malstadur.mideind.is. Not affiliated with or endorsed by Miðeind ehf.",
   "author": {
     "name": "Fordæmi ehf.",
     "url": "https://fordaemi.is"
@@ -19,7 +19,7 @@
         "${__dirname}/server/index.js"
       ],
       "env": {
-        "GREYNIR_API_KEY": "${user_config.api_key}"
+        "MALSTADUR_API_KEY": "${user_config.api_key}"
       }
     }
   },
@@ -33,7 +33,7 @@
     "api_key": {
       "type": "string",
       "title": "Málfríður API Key",
-      "description": "API key from your Frjáls áskrift subscription at api.greynir.is.",
+      "description": "API key created under your Frjáls áskrift at malstadur.mideind.is.",
       "sensitive": true,
       "required": true
     }

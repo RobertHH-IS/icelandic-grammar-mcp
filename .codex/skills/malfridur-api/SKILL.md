@@ -1,6 +1,6 @@
 ---
 name: malfridur-api
-description: Use Miðeind's Málfríður API for Icelandic spelling and grammar checks when the user explicitly requests Málfríður, the Greynir API, or API-backed Icelandic proofreading. Requires GREYNIR_API_KEY.
+description: Use Miðeind's Málfríður service through the Málstaður API for Icelandic spelling and grammar checks when the user explicitly requests Málfríður or API-backed Icelandic proofreading. Requires MALSTADUR_API_KEY.
 ---
 
 # Málfríður API
@@ -11,7 +11,7 @@ affiliated with Miðeind ehf.
 
 ## API key
 
-- Confirm that `GREYNIR_API_KEY` is present without printing it: `test -n "${GREYNIR_API_KEY:-}"`.
+- Confirm that `MALSTADUR_API_KEY` is present without printing it: `test -n "${MALSTADUR_API_KEY:-}"`.
 - If it is absent, ask the user to configure it in the environment used by
   Codex. Do not ask them to paste the key into the conversation.
 - Never echo, log, commit, or return the key. Do not put its expanded value in
@@ -21,7 +21,7 @@ affiliated with Miðeind ehf.
 
 Run `scripts/check.mjs`, resolved relative to this `SKILL.md`, and pass the
 Icelandic text on standard input. The helper returns the API's JSON on standard
-output and honors the documented `GREYNIR_*` environment overrides.
+output and honors the documented `MALSTADUR_*` environment overrides.
 
 For long material, send coherent paragraph-sized batches and preserve their
 order. Report the corrected text and a compact list of API annotations,
