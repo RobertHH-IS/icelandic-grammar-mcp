@@ -1,4 +1,4 @@
-# Málfríður for Claude and Codex
+# Málfríður for Claude, Codex, and ChatGPT Desktop
 
 This is a small, unofficial **local MCP server** for Miðeind's **Málfríður**
 Icelandic proofreading service. It runs on your own computer and talks directly
@@ -33,9 +33,9 @@ This is the easiest option. It works only with **Claude Desktop**.
 That is all. Claude runs the MCP server locally and handles the API-key setting
 for you. You do not need to use Terminal or install any programming tools.
 
-### 2. Ask Claude or Codex to bring over the skill
+### 2. Ask Claude, Codex, or ChatGPT Desktop to bring over the skill
 
-Copy the message below into Claude or Codex:
+Copy the message below into Claude, Codex, or ChatGPT Desktop:
 
 > Install the Málfríður skill from this repository for me:
 > https://github.com/RobertHH-IS/icelandic-grammar-mcp
@@ -43,15 +43,16 @@ Copy the message below into Claude or Codex:
 > Keep my API key private. Do not ask me to paste it into this chat. Show me the
 > safest way to set `MALSTADUR_API_KEY` when it is needed.
 
-Claude or Codex can examine the repository, copy the small
+These assistants can examine the repository, help you bring over the small
 [skill file](.codex/skills/malfridur-api/SKILL.md), and guide you through the
 API-key step.
 
-### 3. Ask Codex or Claude Cowork to make its own version
+### 3. Ask Claude, Codex, or ChatGPT Desktop to make its own version
 
-You do not have to use this repository. Give Codex or Claude Cowork the
+You do not have to use this repository. Ask Claude (including Cowork), Codex,
+or ChatGPT Desktop to read the
 [official API documentation](https://api.malstadur.is/#tag/grammar/POST/v1/grammar)
-and ask it to create a minimal plugin or skill for you.
+and create a minimal plugin or skill for you.
 
 You can copy this message:
 
