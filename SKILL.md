@@ -13,9 +13,22 @@ integration.
 
 ## Access
 
-- Confirm that `MALSTADUR_API_KEY` is present without printing it: `test -n "${MALSTADUR_API_KEY:-}"`.
-- If absent, ask the user to set it in the environment used by Codex. Never ask
-  them to paste it into the conversation, and never print or commit it.
+- Confirm that `MALSTADUR_API_KEY` is non-empty inside the exact process that
+  will make the API request. Do not print its value. For example, use
+  `test -n "${MALSTADUR_API_KEY:-}"` in a POSIX shell or check
+  `$env:MALSTADUR_API_KEY` in PowerShell.
+- If it is absent, do not call the API. Guide the user through a persistent,
+  user-level setup appropriate to their operating system and AI application.
+  Prefer the operating system's credential store when available, with a
+  startup mechanism that exposes the stored value as `MALSTADUR_API_KEY` to
+  the application and its child processes.
+- Be precise about persistence: storing a secret does not by itself create an
+  environment variable, session-only environment commands are not durable,
+  and changes commonly affect only newly started processes. Ask the user to
+  fully quit and reopen the AI application, then verify the variable again in
+  a new request process.
+- Never ask the user to paste the key into the conversation, and never print or
+  commit it.
 
 ## Safety boundary
 
