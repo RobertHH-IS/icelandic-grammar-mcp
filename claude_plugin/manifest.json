@@ -3,7 +3,7 @@
   "manifest_version": "0.2",
   "name": "icelandic-grammar-mcp",
   "display_name": "Icelandic Grammar (Málfríður)",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Unofficial MCP server for Miðeind's Málfríður Icelandic grammar and spelling API.",
   "long_description": "An unofficial MCP server that gives Claude a check_icelandic_grammar tool, powered by Miðeind's Málfríður proofreading service through the Málstaður API. Requires an API key created under a Frjáls áskrift at malstadur.mideind.is. Not affiliated with or endorsed by Miðeind ehf.",
   "author": {
@@ -26,7 +26,7 @@
   "tools": [
     {
       "name": "check_icelandic_grammar",
-      "description": "Check Icelandic text with Málfríður and return its corrected text verbatim, without additional edits or rewriting."
+      "description": "Check Icelandic text with Málfríður, using as many calls as reasonably needed for the supplied text, and return its corrections verbatim without additional edits or rewriting."
     }
   ],
   "user_config": {

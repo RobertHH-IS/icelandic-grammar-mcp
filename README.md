@@ -63,7 +63,11 @@ Once installed, simple requests trigger the skill, for example:
 - `Notaðu Málstað: …`
 - `Notaðu Málfríði: …`
 
-Each request authorizes one API call for the text you supplied.
+A grammar-check request authorizes as many API calls as reasonably needed to
+check all text supplied for that task. The assistant may split long text into
+separate calls and retry transient failures without asking again for each call.
+It should not resend text that was already checked successfully or send text
+outside the request.
 
 ### 3. Ask Claude, Codex, or ChatGPT Desktop to make its own version
 
